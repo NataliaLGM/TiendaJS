@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<title>Tienda</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a class="brand" href="index.html">Aguatinta</a>
+        </div>
+
+        <div class="menu">
+            <input type="checkbox" id="menu">
+            <label for="menu"> ☰ </label>
+            <ul class="nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tienda.html">Tienda</a>
+                <li><a href="about.html">Sobre Nosotros</a>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+        <button id="btn-carrito"><i class="fa fa-shopping-cart"></i><span id="contador-carrito">0</span></button>
+    </header>
+
+
+
+    <main>
+        <h1 class="other__title">Tienda</h1>
+        <h2 class="subtitle">Productos exclusivos</h2>
+
+
+        <section id="contenedor-productos" class="grid-tienda">
+
+    </main>
+    <div class="modal-ventana">
+        <div class="modal-carrito">
+            <button id="carritoCerrar"><i class="fa fa-times-circle"></i></button>
+            <h3 class="other__title">Carrito</h3>
+            <div id="carrito-contenedor">
+            </div>
+            <p class="precioProducto">Total: $<span id="precioTotal"></span></p>
+            <button id="btnVolver">Volver</button>
+            <button id="btnConfirmar">Confirmar</button>
+        </div>
+
+
+    </div>
+    <footer>
+        <div>
+            <a href="#" class="fa fa-facebook"></a>
+            <a href="#" class="fa fa-instagram"></a>
+            <a href="#" class="fa fa-linkedin"></a>
+
+        </div>
+        <p class="light-text">Aguatinta © 2021.</p>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+
+
+</body>
+
+</html>
