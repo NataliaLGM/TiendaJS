@@ -57,9 +57,64 @@ const contenedorCarrito = document.getElementById('carrito-contenedor')
 const contadorCarrito = document.getElementById('contador-carrito')
 const precioTotal = document.getElementById('precioTotal')
 
-/*Productos*/
+/*Guardar Carrito*/
 
-mostrarProductos(stockProductos);
+function actualizarCarrito() {
+  contadorCarrito.innerText = carrito.reduce((acc, x) => acc + x.cantidad, 0)
+  localStorage.setItem('carrito', JSON.stringify(carrito))
+  precioTotal.innerText = carrito.reduce((acc, x) => acc + (x.precio * x.cantidad), 0)
+}
+
+
+function revisarLocal() {
+  let carritoLocal = JSON.parse(localStorage.getItem('carrito'))
+  if (carritoLocal) {
+    carritoLocal.forEach((x) => añadirAlCarrito(x.id))
+  }
+}
+
+revisarLocal()
+
+/*Carrito*/
+
+const añadirAlCarrito = productoId => {
+  let existInCart = carrito.some(x => x.id == productoId);
+  if (existInCart) {
+    let count = document.getElementById(`cantidad${productoId}`);
+    carrito.map(x => {
+      if (x.id == productoId){
+        count.innerText = `${x.cantidad +=1}`
+        actualizarCarrito();
+      }
+    });
+  } else {
+    let productoAñadir = stockProductos.find(x => x.id == productoId);
+    carrito.push(productoAñadir);
+    console.log(carrito);
+    actualizarCarrito();
+
+
+    let div = document.createElement('div');
+    div.classList.add('productoEnCarrito');
+    div.innerHTML += `
+        <p class="carrito-text">${productoAñadir.nombre}</p>
+        <p class="carrito-text carrito-precio"> $${productoAñadir.precio}</p>
+        <p class ="carrito-text carrito-cant" id="cantidad${productoAñadir.id}"> ${productoAñadir.cantidad}</p>
+        <button id="eliminar${productoAñadir.id}" class="boton-eliminar"><i class="fa fa-trash"></i></button>
+      `
+    contenedorCarrito.appendChild(div);
+    let botonEliminar = document.getElementById(`eliminar${productoAñadir.id}`);
+
+    botonEliminar.addEventListener('click', () => {
+      botonEliminar.parentElement.remove();
+      carrito = carrito.filter((x) => x.id != productoAñadir.id);
+      actualizarCarrito();
+      console.log(carrito);
+    });
+  }
+};
+
+/*Productos*/
 
 function mostrarProductos(array) {
   contenedorProductos.innerHTML = ''
@@ -82,61 +137,7 @@ function mostrarProductos(array) {
   })
 }
 
-/*Carrito*/
-
-function añadirAlCarrito(id) {
-  let validar = carrito.some(x => x.id == id)
-  if (validar) {
-    let count = document.getElementById(`cantidad${id}`)
-    carrito.map(x => {
-      if (x.id == id)
-        count.innerText = `${x.cantidad +=1}`
-      actualizarCarrito()
-    })
-  } else {
-    let productoAñadir = stockProductos.filter(x => x.id == id)[0]
-    carrito.push(productoAñadir)
-    console.log(carrito)
-    actualizarCarrito()
-
-
-    let div = document.createElement('div')
-    div.classList.add('productoEnCarrito')
-    div.innerHTML += `
-        <p class="carrito-text">${productoAñadir.nombre}</p>
-        <p class="carrito-text carrito-precio"> $${productoAñadir.precio}</p>
-        <p class ="carrito-text carrito-cant" id="cantidad${productoAñadir.id}"> ${productoAñadir.cantidad}</p>
-        <button id="eliminar${productoAñadir.id}" class="boton-eliminar"><i class="fa fa-trash"></i></button>
-      `
-    contenedorCarrito.appendChild(div)
-    let botonEliminar = document.getElementById(`eliminar${productoAñadir.id}`)
-
-    botonEliminar.addEventListener('click', () => {
-      botonEliminar.parentElement.remove()
-      carrito = carrito.filter((x) => x.id != productoAñadir.id)
-      actualizarCarrito()
-      console.log(carrito)
-    })
-  }
-}
-
-/*Guardar Carrito*/
-
-function actualizarCarrito() {
-  contadorCarrito.innerText = carrito.reduce((acc, x) => acc + x.cantidad, 0)
-  localStorage.setItem('carrito', JSON.stringify(carrito))
-  precioTotal.innerText = carrito.reduce((acc, x) => acc + (x.precio * x.cantidad), 0)
-}
-
-
-function revisarLocal() {
-  let carritoLocal = JSON.parse(localStorage.getItem('carrito'))
-  if (carritoLocal) {
-    carritoLocal.forEach((x) => añadirAlCarrito(x.id))
-  }
-}
-
-revisarLocal()
+mostrarProductos(stockProductos);
 
 /*Ventana Modal*/
 
